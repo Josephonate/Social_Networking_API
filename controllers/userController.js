@@ -1,9 +1,9 @@
-const User = require('..models/User');
+const {User, Thought} = require('../models');
 
 module.exports = {
     async getUsers(req, res) {
         try {
-            const users = await User.find();
+            const users = await User.find().populate("friends").populate("thoughts").populate("reactions");
             res.json(users);
         } catch (err) {
             res.status(500).json(err);
@@ -11,7 +11,7 @@ module.exports = {
     },
     async getSingleUser(req, res) {
         try {
-            const user = await user.findOne({ _id: req.params.userId })
+            const user = await user.findOne({ _id: req.params.userId }).populate("friends").populate("thoughts")
                 .select('-__v');
 
             if (!user) {
@@ -43,7 +43,7 @@ module.exports = {
                 return res.status(404).json({ message: 'No User with this id!' });
             }
 
-            res.json(User);
+            res.json(user);
         } catch (err) {
             console.log(err);
             res.status(500).json(err);
@@ -76,9 +76,9 @@ module.exports = {
     },
     async addFriend(req, res) {
         try {
-            const friend = await friend.findOneAndUpdate(
-                { _id: req.params.friendId },
-                { $addToSet: { responses: req.body } },
+            const friend = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                { $addToSet: { friends: req.params.friendId } },
                 { runValidators: true, new: true }
             );
 
@@ -94,9 +94,9 @@ module.exports = {
     // Remove friend response
     async deleteFriend(req, res) {
         try {
-            const friend = await friend.findOneAndUpdate(
-                { _id: req.params.friendId },
-                { $pull: { reactions: { responseId: req.params.responseId } } },
+            const friend = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                { $pull:  { friends: req.params.friendId } },
                 { runValidators: true, new: true }
             )
 
