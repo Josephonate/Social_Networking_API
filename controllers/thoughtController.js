@@ -25,8 +25,17 @@ module.exports = {
     },
     async createThought(req, res) {
         try {
-            const dbThoughtData = await Thought.create(req.body);
-            res.json(dbThoughtData);
+            const thought = await Thought.create(req.body);
+            const user = await User.findOneAndUpdate(
+                { _id: req.body.userId },
+                { $addToSet: {thoughts: thought._id } },
+                { new: true }
+            );
+            if (!user) {
+                return res
+                  .status(404)
+                  .json({ message: 'Thought created, but found no user with that ID' });
+              }
         } catch (err) {
             res.status(500).json(err);
         }
