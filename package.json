@@ -4,13 +4,17 @@
   "description": "AS A social media startup<br>\r I WANT an API for my social network that uses a NoSQL database\r SO THAT my website can handle large amounts of unstructured data\r # Acceptance Criteria",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index",
+    "seed": "node utils/seed"
   },
   "author": "Joseph Onate",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "mongoose": "^8.0.0",
-    "nodemon": "^3.0.1"
-  }
+    "mongoose": "^8.0.0"
+      },
+      "devDependencies": {
+        "nodemon": "^3.0.1"
+      }
 }
