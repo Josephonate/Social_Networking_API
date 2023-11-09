@@ -92,7 +92,7 @@ module.exports = {
         }
     },
     // Remove friend response
-    async removeFriend(req, res) {
+    async deleteFriend(req, res) {
         try {
             const friend = await friend.findOneAndUpdate(
                 { _id: req.params.friendId },

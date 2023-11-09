@@ -74,10 +74,10 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-    async addFriend(req, res) {
+    async addReaction(req, res) {
         try {
             const reaction = await reaction.findOneAndUpdate(
-                { _id: req.params.friendId },
+                { _id: req.params.reactionId },
                 { $addToSet: { responses: req.body } },
                 { runValidators: true, new: true }
             );
@@ -92,7 +92,7 @@ module.exports = {
         }
     },
     // Remove reaction response
-    async removeReaction(req, res) {
+    async deleteReaction(req, res) {
         try {
             const reaction = await reaction.findOneAndUpdate(
                 { _id: req.params.reactionId },

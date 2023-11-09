@@ -17,4 +17,9 @@ router
 .get(getSingleThought)
 .put(updateThought)
 .delete(deleteThought)
+
+router.route('/:friendId/reaction').post(addFriend);
+
+router.route('/:friendId/reaction/:reactionsId').delete(deleteFriend);
+
 module.exports = router
